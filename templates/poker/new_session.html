@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id='main'>
+        <h1> Add New Session </h1>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <table id="forms">{{ form.as_table }}</table>
+            <input class="btn btn-inverse btn-small" type="submit" value="Submit" />
+        </form>
+    </div>
+
+{% endblock %}

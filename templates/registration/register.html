@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a class="btn btn-primary btn-small" href="{% url 'login' %}">Return to Login &raquo;</a>
+    <br><br>
+    <form class="well form-inline" action="" method="post">
+        {% csrf_token %}
+        {% if form.error_message %}
+            <div class="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>{{ error_message }}</strong>
+            </div>
+        {% endif %}
+        <table id="forms">{{ form.as_table }}</table>
+        <input class="btn btn-primary btn-small" id="myButton" type="submit" value="Register User &raquo;" />
+    </form>
+{% endblock %}

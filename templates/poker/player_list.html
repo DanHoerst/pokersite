@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="main">
+    {% if players %}
+    <table id="results" border="1">
+    <tr>
+    <th>Player</th>
+    <th>Total Amount Won</th>
+    </tr>
+    {% for player in players %}
+    <tr>
+    <td><a class="user" href="{% url 'screename_list' player.id %}">{{ player.first_name }} {{ player.last_name }}</a></td>
+    <td>Total: {{ player.total_amount_won }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+
+<div class="pagination">
+  <span class="step-links">
+	{% if player_list.has_previous %}
+        <a class="navlink" href="?{% if query %}q={{ query }}&{% endif %}page={{ player_list.previous_page_number }}">previous</a>
+    {% endif %}
+
+      <span class="current">
+		Page {{ player_list.number }} of {{ player_list.paginator.num_pages }}
+	  </span>
+
+      {% if player_list.has_next %}
+          <a class="navlink" href="?{% if query %}q={{ query }}&{% endif %}page={{ player_list.next_page_number }}">next</a>
+      {% endif %}
+  </span>
+</div>
+{% endblock %}

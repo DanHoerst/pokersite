@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="well form-inline" action="" method="post">
+{% csrf_token %}
+{% if form.errors %}<p>Please correct the following fields:</p>{% endif %}
+    <label for="username">Username: </label><input type="text" name="username" value="" id="username" />
+    <label for="password">Password: </label><input type="password" name="password" value="" id="password" />
+    <label class="checkbox">
+        <input type="checkbox"> Remember me
+    </label>
+    <button type="submit" class="btn btn-primary btn-small">Sign in &raquo;</button>
+    <button type="submit" class="btn btn-primary btn-small" formaction="{% url 'register' %}" formmethod="get">New User? Click Here &raquo;</button>
+    <button type="submit" class="btn btn-primary btn-small" formaction="{% url 'passwordreset' %}" formmethod="get">Forgot Password &raquo;</button>
+</form>
+    <div class="hero-unit">
+
+    </div>
+    <footer>
+        <p>&copy; Dan Hoerst 2013</p>
+    </footer>
+{% endblock %}

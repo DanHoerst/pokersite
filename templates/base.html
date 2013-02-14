@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheet.css">
+</head>
+
+<body>
+{% if user.is_authenticated %}
+    <li><a href="#">Logged in as {{ user.username }}.</a></li>
+    <li><a class href="/auth/logout/">Logout</a></li>
+{% endif %}
+
+<div class="container" id="main">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

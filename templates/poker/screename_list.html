@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="main">
+        {% if screenames_list %}
+        <table id="results" border="1">
+        <tr>
+        <th colspan="3"><a href="{% url 'player_list' %}">Back to Player List</a></th>
+        </tr>
+        <tr>
+        <th colspan="3">{{ owner.first_name }} {{ owner.last_name }}</th>
+        </tr>
+        <tr>
+        <th>Screen Name</th>
+        <th>Site</th>
+        <th>Total Amount Won</th>
+        </tr>
+        {% for screename in screenames %}
+        <tr>
+        <td><a href ="{% url 'session_list' screename.id %}"> {{ screename.name }}</a></td>
+        <td>{{ screename.sites }}</td>
+        <td>{{ screename.total_amount_won }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <p><a class="btn btn-inverse btn-small" href="{% url 'new_screename' owner.id %}">Add New Screen Name &raquo;</a></p>
+
+
+    <div class="pagination">
+  <span class="step-links">
+	{% if screenames_list.has_previous %}
+        <a class="navlink" href="?{% if query %}q={{ query }}&{% endif %}page={{ screenames_list.previous_page_number }}">previous</a>
+    {% endif %}
+
+      <span class="current">
+		Page {{ screenames_list.number }} of {{ screenames_list.paginator.num_pages }}
+	  </span>
+
+      {% if screenames_list.has_next %}
+          <a class="navlink" href="?{% if query %}q={{ query }}&{% endif %}page={{ screenames_list.next_page_number }}">next</a>
+      {% endif %}
+  </span>
+    </div>
+{% endblock %}

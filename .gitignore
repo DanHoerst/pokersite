@@ -1,0 +1,14 @@
+*.*~
+*.*~~
+*.pyc
+venv
+.project
+.pydevproject
+*.py~
+.gitignore~
+*.*~
+settings.py
+stakeme/settings.py
+.idea
+local_settings.py
+stakeme/local_settings.py

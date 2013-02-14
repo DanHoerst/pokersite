@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="main">
+        {% if sessions_list %}
+        <table id="results" border="1">
+        <tr>
+            <th colspan="3"><a href="{% url 'screename_list' screename.player.id%}">{{ screename.player.first_name }} {{ screename.player.last_name }}</a></th>
+        </tr>
+        <tr>
+            <th colspan="3">{{ screename.name }}</th>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <th>Stakes</th>
+            <th>Profit</th>
+        </tr>
+        {% for session in sessions_list %}
+        <tr>
+            <td>{{ session.date }}</td>
+            <td>{{ session.stakes }}</td>
+            <td>{{ session.profit }}</td>
+        </tr>
+        {% endfor %}
+        {% for total in totals %}
+        <tr id="total">
+        <td colspan="2">Total Amount Won:</td>
+        <td>{{ total.total_amount_won }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+        {% endif %}
+        </div>
+
+    <a class="btn btn-inverse btn-small" href="{% url 'new_session' screename.id %}">Add New Session &raquo;</a>
+
+
+    <div class="pagination">
+  <span class="step-links">
+	{% if sessions_list.has_previous %}
+        <a class="navlink" href="?{% if query %}q={{ query }}&{% endif %}page={{ sessions_list.previous_page_number }}">previous</a>
+    {% endif %}
+
+      <span class="current">
+		Page {{ sessions_list.number }} of {{ sessions_list.paginator.num_pages }}
+	  </span>
+
+      {% if sessions_list.has_next %}
+          <a class="navlink" href="?{% if query %}q={{ query }}&{% endif %}page={{ sessions_list.next_page_number }}">next</a>
+      {% endif %}
+  </span>
+    </div>
+{% endblock %}
