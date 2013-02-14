@@ -5,10 +5,10 @@
         {% if sessions_list %}
         <table id="results" border="1">
         <tr>
-            <th colspan="3"><a href="{% url 'screename_list' screename.player.id%}">{{ screename.player.first_name }} {{ screename.player.last_name }}</a></th>
+            <th colspan="3"><a href="{% url 'screename_list' totals.player.id%}">{{ totals.player.first_name }} {{ totals.player.last_name }}</a></th>
         </tr>
         <tr>
-            <th colspan="3">{{ screename.name }}</th>
+            <th colspan="3">{{ totals.name }}</th>
         </tr>
         <tr>
             <th>Date</th>
@@ -22,17 +22,15 @@
             <td>{{ session.profit }}</td>
         </tr>
         {% endfor %}
-        {% for total in totals %}
         <tr id="total">
         <td colspan="2">Total Amount Won:</td>
-        <td>{{ total.total_amount_won }}</td>
+        <td>{{ totals.total_amount_won }}</td>
         </tr>
-        {% endfor %}
         </table>
         {% endif %}
         </div>
 
-    <a class="btn btn-inverse btn-small" href="{% url 'new_session' screename.id %}">Add New Session &raquo;</a>
+    <a class="btn btn-inverse btn-small" href="{% url 'new_session' totals.id %}">Add New Session &raquo;</a>
 
 
     <div class="pagination">

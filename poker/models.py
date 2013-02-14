@@ -1,8 +1,13 @@
 from django.db import models
 from django.forms import ModelForm
 from django.conf import settings
+from django.db.models import Sum
 from django.contrib.auth.models import AbstractUser
 
+
+class TotalsScreenameManager(models.Manager):
+    def get_query_set(self):
+        return super(TotalsScreenameManager, self).get_query_set().annotate(total_amount_won=Sum('sessions__profit'))
 
 class PokerUser(AbstractUser):
     poker_relate = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
@@ -23,6 +28,9 @@ class Screename(models.Model):
     player = models.ForeignKey(PokerUser)
     sites = models.CharField(choices=SITE_CHOICES, max_length=10)
     name = models.CharField(null=True, blank=True, max_length=40)
+
+    objects = models.Manager()
+    totals = TotalsScreenameManager()
 
 class Sessions(models.Model):
     date = models.DateTimeField('Date Played')

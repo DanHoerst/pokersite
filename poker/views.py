@@ -6,7 +6,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 
 from .models import PokerUser, Screename, Sessions, SessionsForm, ScreenameForm
-from .utils import paginate_me
+from .utils import paginate_me, user_relation
+
 
 @login_required(login_url='/auth/login/')
 def player_list(request):
@@ -27,32 +28,27 @@ def player_list(request):
 def screename_list(request, player_id):
 
     owner = PokerUser.objects.get(id=player_id)
-    if request.user.email == owner.email or request.user.email == owner.token:
+    if user_relation(request, owner):
 
-        screenames = owner.screename_set.all().annotate(total_amount_won=Sum('sessions__profit'))
-
+        screenames = Screename.totals.filter(player__id=player_id)
         screenames_list, paginator = paginate_me(request, screenames, 15)
-
         context = RequestContext(request)
         return render_to_response('poker/screename_list.html', {"screenames_list": screenames_list, "screenames": screenames, "owner": owner,}, context_instance=context)
     else:
         return HttpResponseRedirect('/')
 
-
 @login_required(login_url='/auth/login/')
 def session_list(request, screename_id):
 
     owner = PokerUser.objects.get(screename__id__iexact = screename_id)
-    if request.user.email == owner.email or request.user.email == owner.token:
+    if user_relation(request, owner):
 
-        screename = Screename.objects.get(id=screename_id)
-        sessions = screename.sessions_set.all()
-        totals = Screename.objects.filter(id=screename_id).annotate(total_amount_won=Sum('sessions__profit'))
-
+        totals = Screename.totals.get(id=screename_id)
+        sessions = totals.sessions_set.all()
         sessions_list, paginator = paginate_me(request, sessions, 15)
 
         context = RequestContext(request)
-        return render_to_response('poker/sessions_list.html', {"sessions_list": sessions_list, "totals": totals, "screename": screename,}, context_instance=context)
+        return render_to_response('poker/sessions_list.html', {"sessions_list": sessions_list, "totals": totals,}, context_instance=context)
     else:
         return HttpResponseRedirect('/')
 
@@ -93,5 +89,3 @@ def new_session(request, screename_id):
     initialData = {'form': form}
     csrfContext = RequestContext(request, initialData)
     return render_to_response('poker/new_session.html', csrfContext)
-
-

@@ -15,3 +15,7 @@ def paginate_me(request,object, pgs):
         object_list = paginator.page(paginator.num_pages)
 
     return object_list, paginator
+
+def user_relation(request, owner):
+    if (request.user.email == owner.email) or (request.user.email == owner.token):
+        return True
